@@ -1,0 +1,10 @@
+const menu=document.querySelector('.menu-toggle');
+menu?.addEventListener('click',()=>{const open=menu.getAttribute('aria-expanded')!=='true';menu.setAttribute('aria-expanded',String(open));document.querySelector('#navigation').classList.toggle('open',open);});
+const dialog=document.querySelector('#lightbox');let opener;
+document.querySelectorAll('[data-photo]').forEach(button=>button.addEventListener('click',()=>{opener=button;dialog.querySelector('img').src=button.dataset.photo;dialog.querySelector('img').alt=button.dataset.caption||'Club event photograph';dialog.querySelector('p').textContent=button.dataset.caption;dialog.showModal();}));
+dialog?.querySelector('button').addEventListener('click',()=>dialog.close());
+dialog?.addEventListener('click',e=>{if(e.target===dialog)dialog.close();});
+dialog?.addEventListener('close',()=>opener?.focus());
+document.querySelectorAll('[data-video]').forEach(container=>container.querySelector('button').addEventListener('click',()=>{const frame=document.createElement('iframe');frame.src=container.dataset.video;frame.title=container.querySelector('button').getAttribute('aria-label');frame.allow='fullscreen; picture-in-picture';frame.referrerPolicy='strict-origin-when-cross-origin';frame.allowFullscreen=true;container.replaceChildren(frame);}));
+document.querySelectorAll('form').forEach(form=>form.addEventListener('submit',()=>{const button=form.querySelector('[data-submit]');if(button){button.disabled=true;button.textContent='Please wait…';}}));
+window.addEventListener('pageshow',event=>{if(event.persisted)location.reload();});
