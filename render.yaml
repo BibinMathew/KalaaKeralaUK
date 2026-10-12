@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: kalaa-kerala-review
+    runtime: python
+    plan: free
+    region: frankfurt
+    buildCommand: sh scripts/build.sh
+    startCommand: sh scripts/start.sh
+    healthCheckPath: /health/
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.12
+      - key: DEBUG
+        value: "false"
+      - key: REVIEW_MODE
+        value: "true"
+      - key: TRUST_PROXY_HTTPS
+        value: "true"
+      - key: WEB_CONCURRENCY
+        value: "1"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      - key: AWS_STORAGE_BUCKET_NAME
+        value: event-photos
+      - key: AWS_ACCESS_KEY_ID
+        sync: false
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false
+      - key: AWS_S3_ENDPOINT_URL
+        sync: false
+      - key: AWS_S3_REGION_NAME
+        sync: false
+      - key: ADMIN_USERNAME
+        value: clubadmin
+      - key: ADMIN_INITIAL_PASSWORD
+        sync: false
+      - key: EMAIL_BACKEND
+        value: django.core.mail.backends.dummy.EmailBackend
